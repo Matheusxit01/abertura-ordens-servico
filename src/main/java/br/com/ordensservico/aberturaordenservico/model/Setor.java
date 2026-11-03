@@ -1,4 +1,4 @@
-import javax.annotation.processing.Generated;
+package br.com.ordensservico.aberturaordenservico.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
