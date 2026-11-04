@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ordensservico.aberturaordenservico.Service.EquipamentoService;
+import br.com.ordensservico.aberturaordenservico.dto.EquipamentoRequest;
 import br.com.ordensservico.aberturaordenservico.model.Equipamento;
 
 @RestController
@@ -27,9 +28,10 @@ public class EquipamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Equipamento> cadastrar(@RequestBody Equipamento equipamento) {
-        Equipamento novo = equipamentoService.cadastrar(equipamento);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novo);
+    public ResponseEntity<Equipamento> cadastrar(@RequestBody EquipamentoRequest request) {
+        return equipamentoService.cadastrar(request)
+                .map(equipamento -> ResponseEntity.status(HttpStatus.CREATED).body(equipamento))
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     @GetMapping
@@ -46,8 +48,8 @@ public class EquipamentoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Equipamento> atualizar(@PathVariable Integer id,
-                                                 @RequestBody Equipamento novosDados) {
-        return equipamentoService.atualizar(id, novosDados)
+                                                 @RequestBody EquipamentoRequest request) {
+        return equipamentoService.atualizar(id, request)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
