@@ -1,0 +1,3202 @@
+{
+  "info": {
+    "name": "Abertura de Ordens de Serviço",
+    "description": "Rode com o Collection Runner, na ordem das pastas. Os IDs são guardados automaticamente em variáveis da collection (setorId, equipId, ordemId...). Cada requisição tem testes automáticos (Test Results).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Teste",
+      "item": [
+        {
+          "name": "GET /teste",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/teste",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teste"
+              ]
+            },
+            "description": "Esperado: 200 OK (API no ar)."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Setores",
+      "item": [
+        {
+          "name": "POST /setores - Costura",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Esperado: 201 Created com id e nome. Guarda o id em {{setorId}}.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\": \"Costura\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nome correto\", function(){ pm.expect(j.nome).to.eql(\"Costura\"); });",
+                  "pm.collectionVariables.set(\"setorId\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - Montagem",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Esperado: 201 Created com id e nome. Guarda o id em {{setorId2}}.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\": \"Montagem\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nome correto\", function(){ pm.expect(j.nome).to.eql(\"Montagem\"); });",
+                  "pm.collectionVariables.set(\"setorId2\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - Costura de Acabamento",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Esperado: 201 Created com id e nome. Guarda o id em {{setorId3}}.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\": \"Costura de Acabamento\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nome correto\", function(){ pm.expect(j.nome).to.eql(\"Costura de Acabamento\"); });",
+                  "pm.collectionVariables.set(\"setorId3\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Esperado: 200 OK com a lista."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Lista contém os setores\", function(){ pm.expect(j.length).to.be.at.least(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores/{id} - existente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Esperado: 200 OK."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"ID e nome\", function(){ pm.expect(j.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId\"))); pm.expect(j.nome).to.eql(\"Costura\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores/{id} - inexistente (999999)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404 Not Found."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /setores/{id} - válido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Esperado: 200 OK com nome atualizado.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"Costura Industrial\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nome atualizado\", function(){ pm.expect(j.nome).to.eql(\"Costura Industrial\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores/{id} - confirma o PUT",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Esperado: 200 e nome 'Costura Industrial'."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nome persistido\", function(){ pm.expect(j.nome).to.eql(\"Costura Industrial\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /setores/{id} - inexistente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404 Not Found.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"X\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores (guarda contagem antes dos inválidos)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Guarda a quantidade de setores."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.collectionVariables.set(\"setorCount\", j.length);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - inválido: nome vazio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Campo testado: nome vazio. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - inválido: nome só espaços",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Campo testado: nome só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"   \"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - inválido: nome null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Campo testado: nome null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":null}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - inválido: nome omitido {}",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Campo testado: nome omitido {}. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores - confirma que não cadastrou",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "A quantidade deve ser igual à de antes."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nada foi cadastrado\", function(){ pm.expect(j.length).to.eql(parseInt(pm.collectionVariables.get(\"setorCount\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /setores/{id} - inválido: nome vazio",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Campo testado: nome vazio. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra o nome anterior.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /setores/{id} - inválido: nome só espaços",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Campo testado: nome só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra o nome anterior.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"   \"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /setores/{id} - inválido: nome null",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Campo testado: nome null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra o nome anterior.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":null}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /setores/{id} - inválido: nome omitido {}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Campo testado: nome omitido {}. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra o nome anterior.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem do campo nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do setor é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores/{id} - nome anterior preservado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorId}}"
+              ]
+            },
+            "description": "Esperado: nome ainda 'Costura Industrial'."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nome preservado\", function(){ pm.expect(j.nome).to.eql(\"Costura Industrial\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /setores - setor temporário (para excluir)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/setores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores"
+              ]
+            },
+            "description": "Setor criado só para o DELETE.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"Setor Temporário\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.collectionVariables.set(\"setorIdTemp\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /setores/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorIdTemp}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorIdTemp}}"
+              ]
+            },
+            "description": "Esperado: 204 No Content."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function(){ pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /setores/{id} - após DELETE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/{{setorIdTemp}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "{{setorIdTemp}}"
+              ]
+            },
+            "description": "Esperado: 404 Not Found."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /setores/{id} - inexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/setores/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setores",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404 Not Found."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Equipamentos",
+      "item": [
+        {
+          "name": "POST /equipamentos - Máquina de Costura Industrial",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "DTO com setorId. Esperado: 201 Created; resposta com objeto setor.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina de Costura Industrial\",\n  \"numeroPatrimonio\": \"PAT-001\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Setor vinculado\", function(){ pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId\"))); pm.expect(j.numeroPatrimonio).to.eql(\"PAT-001\"); });",
+                  "pm.collectionVariables.set(\"equipId\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - Prensa de Montagem",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Esperado: 201 Created, no setor Montagem.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Prensa de Montagem\",\n  \"numeroPatrimonio\": \"PAT-002\",\n  \"setorId\": {{setorId2}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Setor Montagem\", function(){ pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId2\"))); });",
+                  "pm.collectionVariables.set(\"equipId2\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Esperado: 200; cada equipamento traz seu setor."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Lista com setor\", function(){ pm.expect(j.length).to.be.at.least(2); pm.expect(j[0].setor).to.exist; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos/{id} - existente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Esperado: 200 com setor correto."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Setor correto\", function(){ pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos/{id} - inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - válido com troca de setor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Troca para o setor Costura de Acabamento. Esperado: 200.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina de Costura Industrial Revisada\",\n  \"numeroPatrimonio\": \"PAT-001\",\n  \"setorId\": {{setorId3}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Setor trocado\", function(){ pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId3\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos/{id} - confirma PUT e troca de setor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Esperado: nome revisado e setor trocado."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Dados e setor novos\", function(){ pm.expect(j.nome).to.eql(\"Máquina de Costura Industrial Revisada\"); pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId3\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos (guarda contagem)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Guarda a quantidade."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.collectionVariables.set(\"equipCount\", j.length);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - setorId inexistente (999999)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Esperado: 404 (setor não existe); não grava.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina de Corte\",\n  \"numeroPatrimonio\": \"PAT-003\",\n  \"setorId\": 999999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos - confirma que PAT-003 não foi cadastrado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Quantidade igual e sem PAT-003."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nada gravado\", function(){ pm.expect(j.length).to.eql(parseInt(pm.collectionVariables.get(\"equipCount\"))); pm.expect(j.some(function(e){return e.numeroPatrimonio===\"PAT-003\";})).to.eql(false); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - setorId inexistente (999999)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Esperado: 404; dados preservados.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Alterado\",\n  \"numeroPatrimonio\": \"PAT-001\",\n  \"setorId\": 999999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - equipamento inexistente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"X\",\n  \"numeroPatrimonio\": \"PAT-999\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: nome vazio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: nome vazio. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: nome só espaços",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: nome só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"   \",\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: nome null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: nome null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": null,\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: nome omitido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: nome omitido. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: patrimônio vazio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: patrimônio vazio. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: patrimônio só espaços",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: patrimônio só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"   \",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: patrimônio null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: patrimônio null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": null,\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: patrimônio omitido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: patrimônio omitido. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: setorId null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: setorId null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de setorId\", function(){ pm.expect(j.setorId).to.eql(\"Setor do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: setorId omitido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: setorId omitido. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"PAT-010\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de setorId\", function(){ pm.expect(j.setorId).to.eql(\"Setor do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - inválido: VÁRIOS inválidos (nome, patrimônio e setorId)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Campo testado: VÁRIOS inválidos (nome, patrimônio e setorId). Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"numeroPatrimonio\": \"\",\n  \"setorId\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });",
+                  "pm.test(\"Mensagem de setorId\", function(){ pm.expect(j.setorId).to.eql(\"Setor do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos - confirma que nenhum inválido foi cadastrado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Quantidade igual à anterior."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nada gravado\", function(){ pm.expect(j.length).to.eql(parseInt(pm.collectionVariables.get(\"equipCount\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: nome vazio",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: nome vazio. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: nome só espaços",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: nome só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"   \",\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: nome null",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: nome null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": null,\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: nome omitido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: nome omitido. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: patrimônio vazio",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: patrimônio vazio. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: patrimônio só espaços",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: patrimônio só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"   \",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: patrimônio null",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: patrimônio null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": null,\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: patrimônio omitido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: patrimônio omitido. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: setorId null",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: setorId null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"PAT-010\",\n  \"setorId\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de setorId\", function(){ pm.expect(j.setorId).to.eql(\"Setor do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: setorId omitido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: setorId omitido. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina\",\n  \"numeroPatrimonio\": \"PAT-010\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de setorId\", function(){ pm.expect(j.setorId).to.eql(\"Setor do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - inválido: VÁRIOS inválidos (nome, patrimônio e setorId)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Campo testado: VÁRIOS inválidos (nome, patrimônio e setorId). Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher). Depois o GET mostra os dados anteriores.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"numeroPatrimonio\": \"\",\n  \"setorId\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de nome\", function(){ pm.expect(j.nome).to.eql(\"Nome do equipamento é obrigatório!\"); });",
+                  "pm.test(\"Mensagem de numeroPatrimonio\", function(){ pm.expect(j.numeroPatrimonio).to.eql(\"Número do patrimônio do equipamento é obrigatório!\"); });",
+                  "pm.test(\"Mensagem de setorId\", function(){ pm.expect(j.setorId).to.eql(\"Setor do equipamento é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos/{id} - dados anteriores preservados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Esperado: dados do PUT válido anterior."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Preservado\", function(){ pm.expect(j.nome).to.eql(\"Máquina de Costura Industrial Revisada\"); pm.expect(j.numeroPatrimonio).to.eql(\"PAT-001\"); pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId3\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /equipamentos/{id} - atualização válida final",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipId}}"
+              ]
+            },
+            "description": "Volta para o setor Costura. Esperado: 200.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Máquina de Costura Industrial\",\n  \"numeroPatrimonio\": \"PAT-001\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Setor Costura\", function(){ pm.expect(j.setor.id).to.eql(parseInt(pm.collectionVariables.get(\"setorId\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /equipamentos - equipamento temporário (para excluir)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos"
+              ]
+            },
+            "description": "Criado só para o DELETE.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Equip Temporário\",\n  \"numeroPatrimonio\": \"PAT-TMP\",\n  \"setorId\": {{setorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.collectionVariables.set(\"equipIdTemp\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /equipamentos/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipIdTemp}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipIdTemp}}"
+              ]
+            },
+            "description": "Esperado: 204."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function(){ pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /equipamentos/{id} - após DELETE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/{{equipIdTemp}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "{{equipIdTemp}}"
+              ]
+            },
+            "description": "Esperado: 404."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /equipamentos/{id} - inexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/equipamentos/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "equipamentos",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ordens de Serviço",
+      "item": [
+        {
+          "name": "POST /ordens-servico - válido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Esperado: 201 com id, descricao, dataAbertura e equipamento.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Máquina apresenta falha ao iniciar a costura.\",\n  \"equipamentoId\": {{equipId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function(){ pm.response.to.have.status(201); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Campos da ordem\", function(){ pm.expect(j.id).to.exist; pm.expect(j.descricao).to.eql(\"Máquina apresenta falha ao iniciar a costura.\"); pm.expect(j.dataAbertura).to.be.a(\"string\"); pm.expect(j.equipamento.id).to.eql(parseInt(pm.collectionVariables.get(\"equipId\"))); });",
+                  "pm.collectionVariables.set(\"ordemId\", j.id);",
+                  "pm.collectionVariables.set(\"ordemData\", j.dataAbertura);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /ordens-servico",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Esperado: 200; ordem criada aparece com a mesma data."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "var o = j.find(function(x){return x.id===parseInt(pm.collectionVariables.get(\"ordemId\"));});",
+                  "pm.test(\"Ordem na lista com mesma data\", function(){ pm.expect(o).to.exist; pm.expect(o.dataAbertura).to.eql(pm.collectionVariables.get(\"ordemData\")); });",
+                  "pm.collectionVariables.set(\"ordemCount\", j.length);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /ordens-servico/{id} - existente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico/{{ordemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico",
+                "{{ordemId}}"
+              ]
+            },
+            "description": "Esperado: 200 e mesma dataAbertura."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mesma data\", function(){ pm.expect(j.dataAbertura).to.eql(pm.collectionVariables.get(\"ordemData\")); pm.expect(j.equipamento.id).to.eql(parseInt(pm.collectionVariables.get(\"equipId\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /ordens-servico/{id} - inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico",
+                "999999"
+              ]
+            },
+            "description": "Esperado: 404."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - inválido: descricao vazia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Campo testado: descricao vazia. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"descricao\":\"\",\"equipamentoId\":{{equipId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de descricao\", function(){ pm.expect(j.descricao).to.eql(\"Descrição da ordem de serviço é obrigatória!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - inválido: descricao só espaços",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Campo testado: descricao só espaços. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"descricao\":\"   \",\"equipamentoId\":{{equipId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de descricao\", function(){ pm.expect(j.descricao).to.eql(\"Descrição da ordem de serviço é obrigatória!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - inválido: descricao omitida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Campo testado: descricao omitida. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"equipamentoId\":{{equipId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de descricao\", function(){ pm.expect(j.descricao).to.eql(\"Descrição da ordem de serviço é obrigatória!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - inválido: equipamentoId ausente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Campo testado: equipamentoId ausente. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"descricao\":\"Falha\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de equipamentoId\", function(){ pm.expect(j.equipamentoId).to.eql(\"Equipamento da ordem de serviço é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - inválido: equipamentoId null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Campo testado: equipamentoId null. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"descricao\":\"Falha\",\"equipamentoId\":null}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de equipamentoId\", function(){ pm.expect(j.equipamentoId).to.eql(\"Equipamento da ordem de serviço é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - inválido: VÁRIOS inválidos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Campo testado: VÁRIOS inválidos. Esperado: 400 Bad Request com campo e mensagem; nada é cadastrado/alterado. Observado: (preencher).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"descricao\":\"\",\"equipamentoId\":null}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function(){ pm.response.to.have.status(400); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Mensagem de descricao\", function(){ pm.expect(j.descricao).to.eql(\"Descrição da ordem de serviço é obrigatória!\"); });",
+                  "pm.test(\"Mensagem de equipamentoId\", function(){ pm.expect(j.equipamentoId).to.eql(\"Equipamento da ordem de serviço é obrigatório!\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ordens-servico - equipamentoId inexistente (999999)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Esperado: 404; ordem não gravada.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"descricao\":\"Falha\",\"equipamentoId\":999999}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function(){ pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /ordens-servico - confirma que rejeitadas não foram gravadas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordens-servico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordens-servico"
+              ]
+            },
+            "description": "Quantidade igual à anterior."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function(){ pm.response.to.have.status(200); });",
+                  "var j = pm.response.json();",
+                  "pm.test(\"Nada gravado\", function(){ pm.expect(j.length).to.eql(parseInt(pm.collectionVariables.get(\"ordemCount\"))); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
